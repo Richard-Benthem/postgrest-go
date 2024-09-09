@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+// --- Existing data -- //
+
 // RequestError represents an error response from the PostgREST server.
 type RequestError struct {
 	Message        string `json:"message"`
@@ -372,5 +374,12 @@ func (b *SelectRequestBuilder) WithoutCount() *SelectRequestBuilder {
 // SingleValue sets the single value behavior for the SELECT request.
 func (b *SelectRequestBuilder) SingleValue() *SelectRequestBuilder {
 	b.params.Set("single-value", "true")
+	return b
+}
+
+// -- New data -- //
+
+func (b *RequestBuilder) Order(column, direction string) *RequestBuilder {
+	b.params.Add("order", fmt.Sprintf("%s.%s", column, direction))
 	return b
 }
